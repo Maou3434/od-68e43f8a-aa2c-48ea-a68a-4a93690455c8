@@ -1,0 +1,378 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DoodleDash | Stationery for Little Explorers</title>
+  <style>
+    :root {
+      /* Palette: Human / approachable (vibrant shift for kids) */
+      --bg:      oklch(98% 0.004 240);
+      --surface: oklch(100% 0 0);
+      --fg:      oklch(20% 0.02 240);
+      --muted:   oklch(50% 0.018 240);
+      --border:  oklch(90% 0.006 240);
+      --accent:  oklch(65% 0.2 30); /* Vibrant Orange-Red for kids */
+      --secondary: oklch(75% 0.15 190); /* Playful Teal/Blue */
+      --yellow: oklch(85% 0.18 85); /* Sunny Yellow */
+      
+      --font-display: 'Söhne', 'Avenir Next', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      --font-body:    -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+      
+      --radius: 18px;
+      --shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.5s ease;
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* --- Navigation --- */
+    nav {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.8);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+    .logo {
+      font-size: 24px;
+      font-family: var(--font-display);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+    }
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 16px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--fg);
+      font-weight: 600;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* --- Hero --- */
+    .hero {
+      padding: 120px 0 80px;
+      text-align: center;
+      background: radial-gradient(circle at top right, var(--yellow), transparent 40%),
+                  radial-gradient(circle at bottom left, var(--secondary), transparent 40%);
+    }
+    .hero h1 {
+      font-size: clamp(48px, 8vw, 84px);
+      margin-bottom: 24px;
+    }
+    .hero h1 span {
+      display: inline-block;
+      animation: float 3s ease-in-out infinite;
+    }
+    .hero p {
+      font-size: 20px;
+      max-width: 600px;
+      margin: 0 auto 40px;
+      color: var(--muted);
+    }
+    .btn {
+      display: inline-block;
+      padding: 18px 36px;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      border-radius: 99px;
+      font-weight: 700;
+      font-size: 18px;
+      box-shadow: 0 10px 30px rgba(201, 100, 66, 0.3);
+      transition: transform 0.2s, background 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      background: oklch(60% 0.2 30);
+    }
+
+    /* --- Categories --- */
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .section-title h2 { font-size: 42px; }
+    
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+      margin-bottom: 120px;
+    }
+    .cat-card {
+      background: var(--surface);
+      padding: 40px;
+      border-radius: var(--radius);
+      text-align: center;
+      border: 2px solid var(--border);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
+    }
+    .cat-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-8px);
+      box-shadow: var(--shadow);
+    }
+    .cat-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+      display: block;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .cat-card:hover .cat-icon {
+      transform: scale(1.4) rotate(10deg);
+    }
+
+    /* --- Featured --- */
+    .featured {
+      padding: 100px 0;
+      background: var(--surface);
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+    .product-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      transition: transform 0.2s;
+    }
+    .product-card:hover { transform: scale(1.02); }
+    .product-img {
+      height: 240px;
+      background: #f8f8f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+    }
+    .product-info {
+      padding: 24px;
+    }
+    .product-info h3 { margin-bottom: 8px; }
+    .price {
+      font-weight: 700;
+      color: var(--accent);
+      font-size: 20px;
+    }
+
+    /* --- Newsletter --- */
+    .newsletter {
+      margin: 100px 0;
+      padding: 80px;
+      background: var(--secondary);
+      border-radius: 40px;
+      text-align: center;
+      color: white;
+    }
+    .newsletter h2 { margin-bottom: 16px; font-size: 36px; }
+    .newsletter input {
+      padding: 18px 24px;
+      border-radius: 99px;
+      border: none;
+      width: 100%;
+      max-width: 400px;
+      font-size: 16px;
+    }
+
+    footer {
+      padding: 80px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--muted);
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+      100% { transform: translateY(0px); }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 80px 0 40px; }
+      .newsletter { padding: 40px 24px; }
+      .hero h1 { font-size: 48px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="container" style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+      <div class="logo">
+        <div class="logo-icon">✏️</div>
+        DoodleDash
+      </div>
+      <div class="nav-links">
+        <a href="#shop">Magic Pens</a>
+        <a href="#shop">Super Stickers</a>
+        <a href="#shop">Secret Notebooks</a>
+        <a href="#">Parent Corner</a>
+      </div>
+      <div class="btn" style="padding: 10px 24px; font-size: 14px;" onclick="alert('Opening the Magic Shop...')">Shop Now</div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <h1>Adventure Awaits on <span>Every Page!</span> 🚀</h1>
+      <p>Unleash your imagination with the world's most magical stationery. From disappearing ink to stickers that tell stories.</p>
+      <a href="#shop" class="btn">Start Your Adventure</a>
+    </div>
+  </header>
+
+  <section class="container" id="shop" style="padding-top: 100px;">
+    <div class="section-title">
+      <h2>Your Toolbelt for Fun</h2>
+    </div>
+    <div class="categories">
+      <div class="cat-card">
+        <span class="cat-icon">🎨</span>
+        <h3>Magic Markers</h3>
+        <p>Colors that change when you wish for it.</p>
+      </div>
+      <div class="cat-card">
+        <span class="cat-icon">🦖</span>
+        <h3>Sticker Packs</h3>
+        <p>100+ buddies to join your notebook journey.</p>
+      </div>
+      <div class="cat-card">
+        <span class="cat-icon">📓</span>
+        <h3>Glow Notebooks</h3>
+        <p>Write secrets that only glow in the dark.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured">
+    <div class="container">
+      <div class="section-title">
+        <h2>Treasures of the Week</h2>
+      </div>
+      <div class="product-grid">
+        <div class="product-card">
+          <div class="product-img">🖊️</div>
+          <div class="product-info">
+            <h3>Nebula Gel Pens</h3>
+            <p class="price">$12.99</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img">🌈</div>
+          <div class="product-info">
+            <h3>Rainbow Washi Tape</h3>
+            <p class="price">$8.50</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img">🐯</div>
+          <div class="product-info">
+            <h3>Jungle Journal</h3>
+            <p class="price">$15.00</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img">🛸</div>
+          <div class="product-info">
+            <h3>Space Case</h3>
+            <p class="price">$19.99</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="newsletter" id="newsletter">
+      <h2>Join the Pencil Club</h2>
+      <p>Get secret missions and first dibs on new magical supplies!</p>
+      <div style="margin-top: 32px; display: flex; justify-content: center; flex-wrap: wrap; gap: 16px;">
+        <input type="email" id="email" placeholder="Your explorer email...">
+        <button class="btn" style="box-shadow: none; background: var(--fg);" onclick="joinClub()">Join Now</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 DoodleDash. Built for explorers, by explorers.</p>
+      <p style="margin-top: 12px; font-size: 14px;">Safe for kids. Approved by Parents.</p>
+    </div>
+  </footer>
+
+  <script>
+    function joinClub() {
+      const email = document.getElementById('email').value;
+      if (!email || !email.includes('@')) {
+        alert('Wait! We need your explorer email to send the secret missions.');
+        return;
+      }
+      
+      const newsletter = document.getElementById('newsletter');
+      newsletter.style.transition = 'all 0.5s ease';
+      newsletter.innerHTML = `
+        <div style="animation: float 2s ease-in-out infinite;">
+          <h2 style="font-size: 84px; margin-bottom: 20px;">🎉</h2>
+          <h2>Welcome to the Club!</h2>
+          <p>Check your inbox for your first secret mission. See you soon, explorer!</p>
+        </div>
+      `;
+      
+      document.body.style.background = 'oklch(95% 0.1 150)';
+      setTimeout(() => {
+        document.body.style.background = 'var(--bg)';
+      }, 2000);
+    }
+  </script>
+</body>
+</html>
